@@ -13,9 +13,3 @@ it('It shouldnt render child component using mountShallow', () => {
 
     expect(instance.html()).not.toContain("the official Vue + Vite starter")
 })
-
-
-/*
- * The recommendation is to use blackbox testing and shallowMount
- *      Use mount when doing integration and e2e tests
- */

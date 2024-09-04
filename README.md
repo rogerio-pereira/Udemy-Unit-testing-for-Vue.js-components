@@ -1,5 +1,19 @@
-# Vue 3 + Vite
+# Notes
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## ShallowMount vs Mount
+The recommendation is to use blackbox testing and shallowMount in unit tests.  
+Use mount when doing integration and e2e tests
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Components Inputs and Outputs
+### Components Inputs
+- Props
+- Children Events
+- Getter from stores
+- Slots
+
+### Component Outputs
+- Emits
+- External calls (APIs)
+- Store dispatches
+- Props binding with children
+- Rendering (modifying templates, class added or removed, etc)
