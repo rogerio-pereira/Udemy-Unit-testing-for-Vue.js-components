@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
-defineProps({
+const props = defineProps({
   msg: String,
 })
 
@@ -10,6 +10,10 @@ const count = ref(0)
 const increment = () => {
     count.value++
 }
+
+watch(() => props.msg, (value) => {
+    fetch('https://example.com/'+value)
+})
 </script>
 
 <template>
