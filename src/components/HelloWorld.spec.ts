@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from "vitest"
 import { mount, shallowMount } from "@vue/test-utils"
 import HelloWorld from "./HelloWorld.vue"
+import axios from 'axios'
+
+vi.mock('axios')
 
 describe('Hello World Test Suites', () => {
     //Mock fetch function
@@ -40,7 +43,8 @@ describe('Hello World Test Suites', () => {
         expect(button.text()).toBe('count is 1')
     })
 
-    it('should make a fetch call using a correct url depending on msg prop', async () => {
+    //Skipping test because the apicall changed, keeping it here to know how to skip a test
+    it.skip('should make a fetch call using a correct url depending on msg prop', async () => {
         //Given the HelloWorld component is mounted
         const instance = shallowMount(HelloWorld)
 
@@ -53,5 +57,15 @@ describe('Hello World Test Suites', () => {
 
         //then we expect the fetch function is called with good url
         expect(fetch).toHaveBeenNthCalledWith(1, 'https://example.com/test')
+    })
+
+    it('should call axios.get with https://httpbin.org/get when msg property changes', async () => {
+        const instance = shallowMount(HelloWorld)
+
+        await instance.setProps({
+            msg: 'test'
+        })
+
+        expect(axios.get).toHaveBeenNthCalledWith(1, 'https://httpbin.org/get')
     })
 })

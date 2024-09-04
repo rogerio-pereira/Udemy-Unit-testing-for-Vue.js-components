@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
+import axios from 'axios'
 
 const props = defineProps({
   msg: String,
@@ -12,7 +13,8 @@ const increment = () => {
 }
 
 watch(() => props.msg, (value) => {
-    fetch('https://example.com/'+value)
+    // fetch('https://example.com/'+value)
+    axios.get('https://httpbin.org/get')
 })
 </script>
 
