@@ -1,11 +1,13 @@
 import { vi, describe, it, expect, beforeEach } from "vitest"
 import { mount, shallowMount } from "@vue/test-utils"
-import HelloWorld from "./HelloWorld.vue"
 import axios from 'axios'
 import {createTestingPinia} from '@pinia/testing'
 import { setActivePinia, createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { useAppStore } from "../stores/appStore"
+
+import HelloWorld from "./HelloWorld.vue"
+import TitleComponent from './TitleComponent.vue'
 
 vi.mock('axios')
 
@@ -29,7 +31,7 @@ describe('Hello World Test Suites', () => {
         })
     
         // expect(instance.find('h1').html()).toContain('My first test!')
-        expect(instance.find('h1').text()).toBe("My first test!")
+        expect(instance.find('h1').text()).toBe("My Title: My first test!")
     })
     
     // WHITEBOX approach, you test the methods internally
@@ -99,5 +101,17 @@ describe('Hello World Test Suites', () => {
         })
 
         expect(store.changeMessage).toHaveBeenNthCalledWith(1, "test")
+    })
+
+    it('should bind the message property with a prefix(My Title:) to TitleComponent', () => {
+        const wrapper = mount(HelloWorld, {
+            props: {
+                msg: 'First Section'
+            }
+        })
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+
+        expect(titleComponentWrapper.props('value')).toBe('My Title: First Section')
     })
 })

@@ -1,7 +1,8 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import axios from 'axios'
 import { useAppStore } from '../stores/appStore.ts'
+import TitleComponent from './TitleComponent.vue'
 
 const props = defineProps({
   msg: String,
@@ -13,6 +14,8 @@ const increment = () => {
     count.value++
 }
 
+const prefixedMessage = computed(() => 'My Title: '+props.msg)
+
 const changeMessage = useAppStore()
 
 watch(() => props.msg, (value) => {
@@ -23,7 +26,7 @@ watch(() => props.msg, (value) => {
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <title-component :value='prefixedMessage'/>
 
   <div class="card">
     <button type="button" @click="increment">count is {{ count }}</button>
