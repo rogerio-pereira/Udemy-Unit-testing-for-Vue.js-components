@@ -13,7 +13,7 @@ const increment = () => {
     count.value++
 }
 
-const changeMessage = useAppStore
+const changeMessage = useAppStore()
 
 watch(() => props.msg, (value) => {
     // fetch('https://example.com/'+value)

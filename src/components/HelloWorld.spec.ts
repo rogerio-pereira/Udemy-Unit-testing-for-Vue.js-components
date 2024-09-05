@@ -81,23 +81,23 @@ describe('Hello World Test Suites', () => {
         expect(axios.get).toHaveBeenNthCalledWith(1, 'https://httpbin.org/get')
     })
 
-    // it('should dispatch changeMessage with "test" if msg prop changes to "test"', async () => {
-    //     const wrapper = shallowMount(HelloWorld, {
-    //         global: {
-    //             plugins: [
-    //                 createTestingPinia({
-    //                     createSpy: vi.fn()
-    //                 })
-    //             ]
-    //         }
-    //     })
+    it.skip('should dispatch changeMessage with "test" if msg prop changes to "test"', async () => {
+        const wrapper = shallowMount(HelloWorld, {
+            global: {
+                plugins: [
+                    createTestingPinia({
+                        createSpy: vi.fn()
+                    })
+                ]
+            }
+        })
 
-    //     const store = useAppStore()
+        const store = useAppStore()
 
-    //     await wrapper.setProps({
-    //         msg: "test"
-    //     })
+        await wrapper.setProps({
+            msg: "test"
+        })
 
-    //     expect(store.changeMessage).toHaveBeenNthCalledWith(1, "test")
-    // })
+        expect(store.changeMessage).toHaveBeenNthCalledWith(1, "test")
+    })
 })
