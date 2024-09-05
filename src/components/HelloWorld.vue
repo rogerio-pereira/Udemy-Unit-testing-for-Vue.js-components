@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import axios from 'axios'
+import { useAppStore } from '../stores/appStore.ts'
 
 const props = defineProps({
   msg: String,
@@ -12,9 +13,12 @@ const increment = () => {
     count.value++
 }
 
+const changeMessage = useAppStore
+
 watch(() => props.msg, (value) => {
     // fetch('https://example.com/'+value)
-    axios.get('https://httpbin.org/get')
+    // axios.get('https://httpbin.org/get')
+    changeMessage(value)
 })
 </script>
 

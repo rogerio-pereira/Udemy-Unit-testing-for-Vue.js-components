@@ -1,6 +1,17 @@
-import { expect, it } from "vitest"
+import { expect, it, beforeEach } from "vitest"
 import { mount, shallowMount } from "@vue/test-utils"
 import App from "./App.vue"
+import { createApp } from 'vue'
+import { setActivePinia, createPinia } from 'pinia'
+
+const app = createApp({})
+
+beforeEach(() => {
+    // creates a fresh pinia and make it active so it's automatically picked
+    // up by any useStore() call without having to pass it to it:
+    // useStore(pinia)
+    setActivePinia(createPinia())
+})
 
 it('It should render child component using mount', () => {
     const instance = mount(App)
