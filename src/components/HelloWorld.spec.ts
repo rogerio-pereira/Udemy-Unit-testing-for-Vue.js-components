@@ -6,12 +6,15 @@ import { setActivePinia, createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { useAppStore } from "../stores/appStore"
 
-import HelloWorld from "./HelloWorld.vue"
+import HelloWorld, {HelloWorldProps} from "./HelloWorld.vue"
 import TitleComponent from './TitleComponent.vue'
 
 vi.mock('axios')
 
 const app = createApp({})
+
+const createWrapper = (props?: HelloWorldProps) => shallowMount(HelloWorld, { props })
+
 describe('Hello World Test Suites', () => {
     //Mock fetch function
     global.fetch = vi.fn()
@@ -209,5 +212,33 @@ describe('Hello World Test Suites', () => {
         const titleComponentWrapper = wrapper.findComponent(TitleComponent)
 
         expect(titleComponentWrapper.element.attributes.getNamedItem('style')?.value).toBe(titleComponentStyle)
+    })
+
+    it('should emit cardClicked when the card is clicked', async () => {
+        const wrapper = createWrapper()
+        const card = wrapper.find('.card')
+
+        await card.trigger('click')
+
+        expect(wrapper.emitted('card-clicked')).toBeTruthy()
+    })
+
+    it('should emit up event when title component emit on-mounted event', async () => {
+        /* 
+         * Need to pass msg because in my template TitleComponent has a v-if
+         *      If i don't pass a message the component won't be rendered and will give an error
+         *      Error: Cannot call vm on an empty VueWrapper
+         */
+        // const wrapper = createWrapper()
+        const wrapper = createWrapper({ msg: 'Message'})
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+        console.log(titleComponentWrapper)
+
+        titleComponentWrapper.vm.$emit('on-mounted')
+
+        expect(wrapper.emitted('up')).toBeTruthy()
+        expect(wrapper.emitted('up')).toHaveLength(1) //Was called 1 time
+        expect(wrapper.emitted('up')?.[0][0]).toBe(0) //Initial value of count
     })
 })
