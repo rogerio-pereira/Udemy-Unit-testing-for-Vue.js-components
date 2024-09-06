@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from "vitest"
+import { vi, describe, it, test, expect, beforeEach } from "vitest"
 import { mount, shallowMount } from "@vue/test-utils"
 import axios from 'axios'
 import {createTestingPinia} from '@pinia/testing'
@@ -113,5 +113,101 @@ describe('Hello World Test Suites', () => {
         const titleComponentWrapper = wrapper.findComponent(TitleComponent)
 
         expect(titleComponentWrapper.props('value')).toBe('My Title: First Section')
+    })
+
+    test.each([
+        {
+            msg: 'First Section',
+            titleComponentExists: true
+        },
+        {
+            msg: null,
+            titleComponentExists: false
+        },
+        {
+            msg: '',
+            titleComponentExists: false
+        },
+        {
+            msg: undefined,
+            titleComponentExists: false
+        },
+    ])
+    ('msg: $msg -> titleComponentExists: $titleComponentExists', ({msg, titleComponentExists}) => {
+        const wrapper = shallowMount(HelloWorld, {
+            props: {
+                msg: msg
+            }
+        })
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+
+        expect(titleComponentWrapper.exists()).toBe(titleComponentExists)
+    })
+
+    test.each([
+        {
+            msg: 'First Section',
+            successClassExists: false
+        },
+        {
+            msg: null,
+            successClassExists: true
+        },
+        {
+            msg: '',
+            successClassExists: true
+        },
+        {
+            msg: undefined,
+            successClassExists: true
+        },
+    ])
+    ('msg: $msg -> successClassExists: $successClassExists', ({msg, successClassExists}) => {
+        const wrapper = shallowMount(HelloWorld, {
+            props: {
+                msg: msg
+            }
+        })
+
+        const cardElementWrapper = wrapper.find<HTMLDivElement>('.card-success')    //HtmlDivElement is a type, this tests if for typescript
+
+        expect(cardElementWrapper.exists()).toBe(successClassExists)
+    })
+
+
+    /*
+     * If instead of having v-if in HelloWorld > TitleConponent we had v-show, 
+     *      the test should check the style and not if the element exists
+     */
+    test.skip
+    .each([
+        {
+            msg: 'First Section',
+            titleComponentStyle: undefined
+        },
+        {
+            msg: null,
+            titleComponentStyle: 'display: none;'
+        },
+        {
+            msg: '',
+            titleComponentStyle: 'display: none;'
+        },
+        {
+            msg: undefined,
+            titleComponentStyle: 'display: none;'
+        },
+    ])
+    ('msg: $msg -> titleComponentStyle: $titleComponentStyle', ({msg, titleComponentStyle}) => {
+        const wrapper = shallowMount(HelloWorld, {
+            props: {
+                msg: msg
+            }
+        })
+
+        const titleComponentWrapper = wrapper.findComponent(TitleComponent)
+
+        expect(titleComponentWrapper.element.attributes.getNamedItem('style')?.value).toBe(titleComponentStyle)
     })
 })

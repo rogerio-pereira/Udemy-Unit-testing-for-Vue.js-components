@@ -26,9 +26,10 @@ watch(() => props.msg, (value) => {
 </script>
 
 <template>
-  <title-component :value='prefixedMessage'/>
+  <title-component :value='prefixedMessage' v-if='msg'/>
 
-  <div class="card">
+  <!-- If it doesn't have msg, it will add card-success class  -->
+  <div class="card" :class="{ 'card-success': !msg }">
     <button type="button" @click="increment">count is {{ count }}</button>
     <p>
       Edit
